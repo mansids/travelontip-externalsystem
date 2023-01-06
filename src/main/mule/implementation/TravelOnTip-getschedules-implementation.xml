@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd 
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<sub-flow name="TravelOnTip-getschedules-implementationSub_Flow" doc:id="01ce4507-87f0-47df-949f-dfe7b7138d85" >
+	<db:select doc:name="Select Schedules fromTravelOnTip system" doc:id="ac518c3c-457d-4f31-a16e-242ae1fcc89d" config-ref="Database_Config">
+			<db:sql ><![CDATA[select * from schedules where companyName="travelOnTip"]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Transform db response in json" doc:id="f2d023a4-2dae-43b8-a2fa-ea8eb0828a4c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>
